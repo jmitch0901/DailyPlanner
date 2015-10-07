@@ -3,6 +3,8 @@ package com.nuapps.jonathanmitchell.dailyplanner.Data;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,6 +30,11 @@ public class SchoolClassFactory {
         }
 
         return myFactory;
+    }
+
+    public void addClass(SchoolClass schoolClass){
+        schoolClasses.add(schoolClass);
+        Collections.sort(schoolClasses);
     }
 
     public void parseFromJSON(){

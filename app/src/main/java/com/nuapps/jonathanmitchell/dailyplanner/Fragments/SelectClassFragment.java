@@ -1,14 +1,18 @@
 package com.nuapps.jonathanmitchell.dailyplanner.Fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
+import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClassFactory;
 import com.nuapps.jonathanmitchell.dailyplanner.Dialogs.AddClassDialogFragment;
 import com.nuapps.jonathanmitchell.dailyplanner.R;
 
@@ -25,7 +29,7 @@ public class SelectClassFragment extends Fragment implements View.OnClickListene
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_add_class,container,false);
+        View v = inflater.inflate(R.layout.fragment_add_class, container, false);
 
         addButton = (FloatingActionButton)v.findViewById(R.id.fab_add);
         addButton.setOnClickListener(this);
@@ -37,9 +41,25 @@ public class SelectClassFragment extends Fragment implements View.OnClickListene
         int id = view.getId();
         switch (id){
             case R.id.fab_add:
-                new AddClassDialogFragment().show(getActivity().getSupportFragmentManager(),"TAG");
+                AddClassDialogFragment dFrag = new AddClassDialogFragment();
+                dFrag.setTargetFragment(SelectClassFragment.this,AddClassDialogFragment.REQUEST_EDIT_TEXT_DATA);
+                dFrag.show(getActivity().getSupportFragmentManager(),TAG);
                 break;
         }
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == Activity.RESULT_OK){
+            if(requestCode==AddClassDialogFragment.REQUEST_EDIT_TEXT_DATA){
+                String className = data.getStringExtra(AddClassDialogFragment.CLASS_KEY);
+                String teachName = data.getStringExtra(AddClassDialogFragment.TEACHER_KEY);
+                SchoolClassFactory.getFactory(getActivity()).addClass(new SchoolClass(className,teachName));
+            } else {
+                Log.e(TAG,"Didn't get dialog data; bad REQUEST code.");
+            }
+        } else {
+            Log.e(TAG,"Didn't get dialog data; bad RESULT code");
+        }
     }
 }

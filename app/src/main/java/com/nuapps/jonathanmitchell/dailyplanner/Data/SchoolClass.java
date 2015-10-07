@@ -23,7 +23,7 @@ import java.util.UUID;
 /**
  * Created by jmitch on 10/5/2015.
  */
-public class SchoolClass implements Comparable<Date>{
+public class SchoolClass implements Comparable<SchoolClass>{
 
     private static final String JSON_UUID= "uuid";
     private static final String CLASS_NAME = "class_name";
@@ -56,8 +56,8 @@ public class SchoolClass implements Comparable<Date>{
     }
 
     @Override
-    public int compareTo(Date date) {
-        return date.compareTo(dateAdded);
+    public int compareTo(SchoolClass schoolClass) {
+        return schoolClass.dateAdded.compareTo(dateAdded);
     }
 
     public JSONObject toJSON() throws JSONException{
