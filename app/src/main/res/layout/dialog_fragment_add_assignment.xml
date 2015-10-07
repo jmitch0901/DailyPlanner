@@ -1,12 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:padding="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/edit_text_assignment_name"
+                android:textSize="21sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="Assignment Name" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:text="Date Due:"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <CalendarView
+            android:id="@+id/calendar_view_add_assignment"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></CalendarView>
+
+        <TextView
+            android:text="Time Due:"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TimePicker
+            android:id="@+id/time_picker_add_assignment"
+            android:layout_gravity="center"
+            android:timePickerMode="spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></TimePicker>
+
+        <TextView
+            android:id="@+id/text_view_confirm_assignment"
+            android:padding="8dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="ASSIGNMENT (a) DUE AT (xx:xxAA) ON (xx/xx/xxxx)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:padding="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_gravity="center"
+                android:text="Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:layout_gravity="center"
+                android:text="Confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
 
 
 
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

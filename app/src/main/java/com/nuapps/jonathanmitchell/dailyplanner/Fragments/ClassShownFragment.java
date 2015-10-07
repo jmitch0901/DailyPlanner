@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.nuapps.jonathanmitchell.dailyplanner.Adapters.AssignmentListAdapter;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClassFactory;
+import com.nuapps.jonathanmitchell.dailyplanner.Dialogs.AddAssignmentDialogFragment;
 import com.nuapps.jonathanmitchell.dailyplanner.R;
 
 import java.util.Calendar;
@@ -90,7 +91,9 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
         int id = view.getId();
         switch (id){
             case R.id.button_add_new_assignment:
-
+                AddAssignmentDialogFragment
+                        .newInstance(schoolClass.getUniqueId())
+                        .show(getActivity().getSupportFragmentManager(),TAG);
                 break;
         }
     }
