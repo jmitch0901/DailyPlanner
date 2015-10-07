@@ -13,6 +13,7 @@ import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nuapps.jonathanmitchell.dailyplanner.Adapters.AssignmentListAdapter;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClassFactory;
 import com.nuapps.jonathanmitchell.dailyplanner.R;
@@ -37,6 +38,7 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
 
 
     private SchoolClass schoolClass;
+    private AssignmentListAdapter adapter;
 
 
     public static ClassShownFragment newInstance(UUID schoolClassUUID){
@@ -79,6 +81,8 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
         className.setText(schoolClass.getClassName());
         teacherName.setText(schoolClass.getTeacherName());
         assignmentNotice.setText(schoolClass.getAssignmentNotice());
+
+        adapter = new AssignmentListAdapter(getContext(),android.R.layout.simple_list_item_1,schoolClass.getAssignments());
     }
 
     @Override
@@ -86,6 +90,7 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
         int id = view.getId();
         switch (id){
             case R.id.button_add_new_assignment:
+
                 break;
         }
     }
