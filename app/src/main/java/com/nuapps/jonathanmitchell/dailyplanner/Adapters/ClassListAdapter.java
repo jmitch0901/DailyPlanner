@@ -41,7 +41,7 @@ public class ClassListAdapter extends ArrayAdapter<SchoolClass> {
         className.setText(schoolClass.getClassName());
         teacherName.setText(schoolClass.getTeacherName());
         assignmentCount.setText(schoolClass.getAssignmentCount()+" assignments");
-        dateAdded.setText(schoolClass.getDateAdded());
+        dateAdded.setText("created "+schoolClass.getDateForView());
 
         return v;
     }

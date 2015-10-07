@@ -29,7 +29,7 @@ public class SchoolClass implements Comparable<SchoolClass>{
 
     private static final String TAG = "SCHOOL_CLASS";
 
-    public static final SimpleDateFormat DFORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+    public static final SimpleDateFormat DFORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mma");
 
     private static final String JSON_UUID= "uuid";
     private static final String CLASS_NAME = "class_name";
@@ -76,6 +76,19 @@ public class SchoolClass implements Comparable<SchoolClass>{
 
     public String getDateAdded() {
         return DFORMAT.format(dateAdded);
+    }
+
+    public String getDateForView(){
+        String s = DFORMAT.format(dateAdded);
+        //s =  s.substring(0,10)+"\n"+s.substring(11,s.length());
+
+        if(s.charAt(11) == '0'){
+            char[] chars = s.toCharArray();
+            chars[11] = ' ';
+            s = new String(chars);
+        }
+
+        return s;
     }
 
     public List<Assignment> getAssignments() {
