@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.FieldPosition;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +56,24 @@ public class SchoolClass implements Comparable<SchoolClass>{
 
     public SchoolClass(JSONObject jo) throws JSONException{
         assignments = new ArrayList<>();
+        uniqueId=UUID.fromString(jo.getString(JSON_UUID));
+        className=jo.getString(CLASS_NAME);
+        teacherName=jo.getString(TEACHER_NAME);
+        try {
+            dateAdded = DFORMAT.parse(jo.getString(DATE_ADDED));
+        } catch (ParseException e){
+            Log.e(TAG,"Error parsing the date for "+className+", "+uniqueId+": "+e.toString());
+        }
+
+        try {
+            JSONArray ja = jo.getJSONArray(ASSIGNMENTS);
+            for (int i = 0; i < ja.length(); i++) {
+                assignments.add(new Assignment(ja.getJSONObject(i)));
+            }
+        } catch (JSONException e){
+            Log.e(TAG,"Error parsing assignments: "+e.toString());
+            throw e;
+        }
     }
 
     public void addAssignmentAndSort(String assignmentDescription, Date dueDate){
@@ -148,6 +167,16 @@ public class SchoolClass implements Comparable<SchoolClass>{
             this.assignmentName=assignmentName;
 
             Log.i("DATE",dateAdded.toString());
+        }
+
+        public Assignment(JSONObject jo) throws JSONException{
+            try{
+                dateAdded = DFORMAT.parse(jo.getString(DATE_ADDED));
+                dueDate = DFORMAT.parse(jo.getString(DATE_DUE));
+                assignmentName = jo.getString(ASSIGNMENT_NAME);
+            } catch (ParseException e){
+                Log.e(TAG,"Error parsing the date in assignments: "+e.toString());
+            }
         }
 
         public String getAssignmentName() {

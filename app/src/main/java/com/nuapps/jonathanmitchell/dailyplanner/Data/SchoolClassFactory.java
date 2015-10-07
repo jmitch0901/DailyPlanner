@@ -1,6 +1,9 @@
 package com.nuapps.jonathanmitchell.dailyplanner.Data;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.nuapps.jonathanmitchell.dailyplanner.IO.JSONSerializer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +34,7 @@ public class SchoolClassFactory {
     private SchoolClassFactory(Context context){
         this.context = context;
         schoolClasses = new ArrayList<>();
+        loadClasses();
     }
 
     public static SchoolClassFactory getFactory(Context context){
@@ -52,6 +56,16 @@ public class SchoolClassFactory {
 
     public List<SchoolClass> getSchoolClasses() {
         return schoolClasses;
+    }
+
+    public void saveClasses(){
+        JSONSerializer serializer = new JSONSerializer(context);
+        serializer.saveSchoolClasses(this);
+    }
+
+    private void loadClasses(){
+        JSONSerializer serializer = new JSONSerializer(context);
+        schoolClasses = serializer.loadSchoolClasses(CLASSES);
     }
 
     public JSONObject toJSON() throws JSONException{
