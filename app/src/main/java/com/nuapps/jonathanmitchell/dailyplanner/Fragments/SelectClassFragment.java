@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.nuapps.jonathanmitchell.dailyplanner.Activities.SchoolClassActivity;
 import com.nuapps.jonathanmitchell.dailyplanner.Adapters.ClassListAdapter;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClassFactory;
@@ -21,7 +23,7 @@ import com.nuapps.jonathanmitchell.dailyplanner.R;
 /**
  * Created by jmitch on 10/5/2015.
  */
-public class SelectClassFragment extends Fragment implements View.OnClickListener{
+public class SelectClassFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener{
 
     private static final String TAG = "SLCT_CLASS_FRAG";
 
@@ -44,6 +46,7 @@ public class SelectClassFragment extends Fragment implements View.OnClickListene
         }
 
         ListView classesView = (ListView)v.findViewById(R.id.list_view_school_classes);
+        classesView.setOnItemClickListener(this);
         classesView.setAdapter(adapter);
 
         return v;
@@ -75,5 +78,19 @@ public class SelectClassFragment extends Fragment implements View.OnClickListene
         } else {
             Log.e(TAG,"Didn't get dialog data; bad RESULT code");
         }
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        SchoolClass schoolClass = (SchoolClass)adapterView.getItemAtPosition(i);
+        if(schoolClass==null){
+            Log.e(TAG,"For some reason, the item you clicked on is NULL!");
+            return;
+        }
+
+        Intent intent = new Intent(getActivity(), SchoolClassActivity.class);
+        intent.putExtra(ClassShownFragment.UUID_KEY,schoolClass.getUniqueId());
+        getActivity().startActivity(intent);
     }
 }

@@ -76,6 +76,10 @@ public class SchoolClass implements Comparable<SchoolClass>{
         }
     }
 
+    public String getAssignmentNotice(){
+        return assignments.size()==1 ? "You have "+assignments.size()+" assignment coming up" : "You have "+assignments.size()+" assignments coming up";
+    }
+
     public void addAssignmentAndSort(String assignmentDescription, Date dueDate){
         assignments.add(new Assignment(assignmentDescription,dueDate));
         Collections.sort(assignments);

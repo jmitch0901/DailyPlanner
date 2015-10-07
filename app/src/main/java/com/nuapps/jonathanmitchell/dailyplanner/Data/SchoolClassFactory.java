@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by jmitch on 10/5/2015.
@@ -61,6 +62,15 @@ public class SchoolClassFactory {
     public void saveClasses(){
         JSONSerializer serializer = new JSONSerializer(context);
         serializer.saveSchoolClasses(this);
+    }
+
+    public SchoolClass getSchoolClassByUUID(UUID uuid){
+        for(SchoolClass sc : schoolClasses){
+            if(uuid.equals(sc.getUniqueId())){
+                return sc;
+            }
+        }
+        return null;
     }
 
     private void loadClasses(){
