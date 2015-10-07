@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/lvToDoList"
+        android:id="@+id/list_view_school_classes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></ListView>
 
@@ -19,7 +19,7 @@
         android:layout_margin="16dp"
         app:fabSize="normal"
         android:src="@android:drawable/ic_input_add"
-        app:layout_anchor="@id/lvToDoList"
+        app:layout_anchor="@id/list_view_school_classes"
         app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

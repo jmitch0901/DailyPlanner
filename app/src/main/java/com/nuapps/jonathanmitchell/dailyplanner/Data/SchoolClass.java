@@ -13,6 +13,8 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,11 +27,14 @@ import java.util.UUID;
  */
 public class SchoolClass implements Comparable<SchoolClass>{
 
+    private static final String TAG = "SCHOOL_CLASS";
+
+    public static final SimpleDateFormat DFORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+
     private static final String JSON_UUID= "uuid";
     private static final String CLASS_NAME = "class_name";
     private static final String TEACHER_NAME = "teacher_name";
     private static final String DATE_ADDED = "date_added";
-    private static final String CREDIT_HOURS = "credit_hours";
     private static final String ASSIGNMENTS = "assignments";
 
     private UUID uniqueId;
@@ -44,15 +49,41 @@ public class SchoolClass implements Comparable<SchoolClass>{
         this.teacherName=teacherName;
         this.dateAdded=Calendar.getInstance().getTime();
         uniqueId = UUID.randomUUID();
+        assignments = new ArrayList<>();
         Log.i("Class Add Date",dateAdded.toString());
     }
 
     public SchoolClass(JSONObject jo) throws JSONException{
+        assignments = new ArrayList<>();
+    }
 
+    public void addAssignmentAndSort(String assignmentDescription, Date dueDate){
+        assignments.add(new Assignment(assignmentDescription,dueDate));
+        Collections.sort(assignments);
     }
 
     public void addAssignment(String assignmentDescription, Date dueDate){
-        assignments.add(new Assignment(assignmentDescription,dueDate));
+        assignments.add(new Assignment(assignmentDescription, dueDate));
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public String getDateAdded() {
+        return DFORMAT.format(dateAdded);
+    }
+
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public UUID getUniqueId() {
+        return uniqueId;
     }
 
     @Override
@@ -68,9 +99,10 @@ public class SchoolClass implements Comparable<SchoolClass>{
         jo.put(JSON_UUID,uniqueId.toString());
         jo.put(CLASS_NAME,className);
         jo.put(TEACHER_NAME,teacherName);
-        jo.put(DATE_ADDED,null);
+        jo.put(DATE_ADDED,DFORMAT.format(dateAdded));
 
-        Collections.sort(assignments);
+        Log.i(TAG,"Date JSON: "+DFORMAT.format(dateAdded));
+
         for(Assignment a : assignments){
             jAssignments.put(a.toJSON());
         }
@@ -82,13 +114,15 @@ public class SchoolClass implements Comparable<SchoolClass>{
 
     }
 
+    public int getAssignmentCount(){
+        return assignments.size();
+    }
+
     public class Assignment implements Comparable<Assignment>{
 
         private static final String ASSIGNMENT_NAME = "date";
         private static final String DATE_ADDED = "date_added";
         private static final String DATE_DUE = "date_due";
-
-
 
         private Date dateAdded;
         private Date dueDate;
@@ -118,8 +152,8 @@ public class SchoolClass implements Comparable<SchoolClass>{
         public JSONObject toJSON() throws JSONException{
             JSONObject jo = new JSONObject();
             jo.put(ASSIGNMENT_NAME,assignmentName);
-
-
+            jo.put(DATE_ADDED,DFORMAT.format(dateAdded));
+            jo.put(DATE_DUE, DFORMAT.format(dueDate));
             return jo;
         }
 
