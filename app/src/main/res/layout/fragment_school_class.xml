@@ -1,53 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/text_view_class_name"
-        android:layout_gravity="center"
-        android:padding="8dp"
-        android:textStyle="bold"
-        android:textSize="36sp"
+    <LinearLayout
         android:gravity="center"
-        android:text="CLASS_NAME"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/text_view_class_name"
+            android:layout_gravity="center"
+            android:padding="8dp"
+            android:textStyle="bold"
+            android:textSize="36sp"
+            android:gravity="center"
+            android:text="CLASS_NAME"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:textStyle="italic"
-        android:id="@+id/text_view_teacher_name"
-        android:layout_gravity="center"
+        <TextView
+            android:textStyle="italic"
+            android:id="@+id/text_view_teacher_name"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="TEACHER_NAME"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/text_view_upcoming_assignments"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="YOU HAVE (n) UPCOMING ASSIGNMENTS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/linear_layout_list_view_wrapper"
         android:gravity="center"
-        android:text="TEACHER_NAME"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_view_upcoming_assignments"
-        android:padding="8dp"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:text="YOU HAVE (n) UPCOMING ASSIGNMENTS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <ListView
+            android:id="@+id/list_view_assignments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
-    <CalendarView
-        android:scrollbars="none"
-        android:id="@+id/calendar_view_assignments"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/button_add_new_assignment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            app:fabSize="normal"
+            android:src="@android:drawable/ic_input_add"
+            app:layout_anchor="@id/list_view_assignments"
+            app:layout_anchorGravity="bottom|right|end" />
 
-    <Button
-        android:id="@+id/button_add_new_assignment"
-        android:text="Add New Assignment"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+
+
 
 
 

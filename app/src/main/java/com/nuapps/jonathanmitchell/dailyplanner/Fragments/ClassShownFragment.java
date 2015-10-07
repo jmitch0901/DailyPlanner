@@ -2,6 +2,7 @@ package com.nuapps.jonathanmitchell.dailyplanner.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
@@ -30,8 +32,9 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
     private TextView className;
     private TextView teacherName;
     private TextView assignmentNotice;
-    private CalendarView calendarView;
-    private Button addAssignmentButton;
+    private ListView assignmentListView;
+    private FloatingActionButton addAssignmentButton;
+
 
     private SchoolClass schoolClass;
 
@@ -63,8 +66,8 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
         className=(TextView)v.findViewById(R.id.text_view_class_name);
         teacherName=(TextView)v.findViewById(R.id.text_view_teacher_name);
         assignmentNotice=(TextView)v.findViewById(R.id.text_view_upcoming_assignments);
-        calendarView=(CalendarView)v.findViewById(R.id.calendar_view_assignments);
-        addAssignmentButton=(Button)v.findViewById(R.id.button_add_new_assignment);
+        assignmentListView=(ListView)v.findViewById(R.id.list_view_assignments);
+        addAssignmentButton=(FloatingActionButton)v.findViewById(R.id.button_add_new_assignment);
         addDataToViews();
 
         addAssignmentButton.setOnClickListener(this);
@@ -76,18 +79,6 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
         className.setText(schoolClass.getClassName());
         teacherName.setText(schoolClass.getTeacherName());
         assignmentNotice.setText(schoolClass.getAssignmentNotice());
-
-        calendarView.setMinDate(Calendar.getInstance().getTime().getTime());
-
-
-
-
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView calendarView, int i, int i1, int i2) {
-
-            }
-        });
     }
 
     @Override

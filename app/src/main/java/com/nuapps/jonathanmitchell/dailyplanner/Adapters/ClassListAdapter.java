@@ -27,7 +27,7 @@ public class ClassListAdapter extends ArrayAdapter<SchoolClass> {
         View v = convertView;
 
         if(convertView==null){
-            LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
             v = inflater.inflate(R.layout.view_school_class,parent,false);
         }
 

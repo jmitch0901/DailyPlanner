@@ -159,10 +159,15 @@ public class SchoolClass implements Comparable<SchoolClass>{
         private static final String ASSIGNMENT_NAME = "date";
         private static final String DATE_ADDED = "date_added";
         private static final String DATE_DUE = "date_due";
+        private static final String HAS_REMINDER = "has_reminder";
+        private static final String REMINDER_DATE = "reminder_date";
 
         private Date dateAdded;
         private Date dueDate;
+        private Date reminderDate;
         private String assignmentName;
+        private boolean hasReminder = false;
+
 
         public Assignment(String assignmentName, Date dueDate){
             Calendar calendar = Calendar.getInstance();
@@ -178,6 +183,10 @@ public class SchoolClass implements Comparable<SchoolClass>{
                 dateAdded = DFORMAT.parse(jo.getString(DATE_ADDED));
                 dueDate = DFORMAT.parse(jo.getString(DATE_DUE));
                 assignmentName = jo.getString(ASSIGNMENT_NAME);
+                hasReminder=jo.getBoolean(HAS_REMINDER);
+                if(hasReminder){
+                    reminderDate=DFORMAT.parse(REMINDER_DATE);
+                }
             } catch (ParseException e){
                 Log.e(TAG,"Error parsing the date in assignments: "+e.toString());
             }
@@ -187,12 +196,27 @@ public class SchoolClass implements Comparable<SchoolClass>{
             return assignmentName;
         }
 
-        public Date getDateAdded() {
-            return dateAdded;
+        public void setReminderDate(Date reminder){
+            if(reminder!=null){
+                hasReminder=true;
+            }
+            this.reminderDate=reminder;
         }
 
-        public Date getDueDate() {
-            return dueDate;
+        public String getDateAddedForView() {
+            return DFORMAT.format(dateAdded);
+        }
+
+        public String getDueDateForView() {
+            return DFORMAT.format(dueDate);
+        }
+
+        public boolean hasReminder() {
+            return hasReminder;
+        }
+
+        public Date getReminderDate() {
+            return reminderDate;
         }
 
         public JSONObject toJSON() throws JSONException{
@@ -200,6 +224,10 @@ public class SchoolClass implements Comparable<SchoolClass>{
             jo.put(ASSIGNMENT_NAME,assignmentName);
             jo.put(DATE_ADDED,DFORMAT.format(dateAdded));
             jo.put(DATE_DUE, DFORMAT.format(dueDate));
+            jo.put(HAS_REMINDER,hasReminder);
+            if(hasReminder) {
+                jo.put(REMINDER_DATE, DFORMAT.format(reminderDate));
+            }
             return jo;
         }
 
