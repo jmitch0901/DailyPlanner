@@ -85,8 +85,8 @@ public class SchoolClass implements Comparable<SchoolClass>{
         Collections.sort(assignments);
     }
 
-    public void addAssignment(String assignmentDescription, Date dueDate){
-        assignments.add(new Assignment(assignmentDescription, dueDate));
+    public void addAssignment(String assignmentName, Date dueDate){
+        assignments.add(new Assignment(assignmentName, dueDate));
     }
 
     public String getTeacherName() {
