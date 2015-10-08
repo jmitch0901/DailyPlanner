@@ -32,6 +32,7 @@ public class SchoolClass implements Comparable<SchoolClass>{
 
     public static final SimpleDateFormat DFORMAT = new SimpleDateFormat("MM/dd/yyyy hh:mma");
 
+
     private static final String JSON_UUID= "uuid";
     private static final String CLASS_NAME = "class_name";
     private static final String TEACHER_NAME = "teacher_name";
@@ -114,12 +115,12 @@ public class SchoolClass implements Comparable<SchoolClass>{
 
     public String getDateForView(){
         String s = DFORMAT.format(dateAdded);
-        //s =  s.substring(0,10)+"\n"+s.substring(11,s.length());
+        s =  s.substring(0,10)+"\n"+s.substring(11,s.length());
 
         if(s.charAt(11) == '0'){
             char[] chars = s.toCharArray();
             chars[11] = ' ';
-            s = new String(chars);
+            s = new String(chars).substring(0, 10);
         }
 
         return s;
@@ -223,7 +224,7 @@ public class SchoolClass implements Comparable<SchoolClass>{
         }
 
         public String getDueDateForView() {
-            return DFORMAT.format(dueDate);
+            return DFORMAT.format(dueDate).substring(0,10);
         }
 
         public boolean hasReminder() {
@@ -245,7 +246,7 @@ public class SchoolClass implements Comparable<SchoolClass>{
 
         @Override
         public int compareTo(Assignment assignment) {
-            return assignment.dateAdded.compareTo(dateAdded);
+            return this.dueDate.compareTo(assignment.dueDate);
         }
     }
 }

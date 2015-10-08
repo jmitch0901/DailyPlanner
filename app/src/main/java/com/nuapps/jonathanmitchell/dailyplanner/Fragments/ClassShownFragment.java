@@ -109,6 +109,8 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode== Activity.RESULT_OK){
             if(requestCode==AddAssignmentDialogFragment.REQUEST_DUE_DATE){
+                SchoolClassFactory.getFactory(getActivity()).saveClasses();
+                assignmentNotice.setText(schoolClass.getAssignmentNotice());
                 adapter.notifyDataSetChanged();
             } else {
                 Log.e(TAG,"Bad REQUEST code for ADD ASSIGNMENT D FRAG");

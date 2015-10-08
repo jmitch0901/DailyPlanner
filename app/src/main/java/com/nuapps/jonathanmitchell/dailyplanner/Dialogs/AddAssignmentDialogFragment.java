@@ -50,7 +50,6 @@ public class AddAssignmentDialogFragment extends DialogFragment
     private static final String SIS_ASSIGNMENT_NAME = "SIS_ASSIGNMENT_NAME";
 
     private SchoolClass schoolClass;
-
     private EditText assignmentEditText;
     private TextView confirmTextView;
     private Calendar cal;
@@ -147,6 +146,7 @@ public class AddAssignmentDialogFragment extends DialogFragment
     }
 
     private void sendResult(final int REQUEST_CODE){
+        schoolClass.addAssignmentAndSort(assignmentName,selectedDate); //POINTING to the place in factory, ADD that assignment.
         getTargetFragment().onActivityResult(REQUEST_CODE, Activity.RESULT_OK,null);
     }
 

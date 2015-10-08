@@ -93,4 +93,12 @@ public class SelectClassFragment extends Fragment implements View.OnClickListene
         intent.putExtra(ClassShownFragment.UUID_KEY,schoolClass.getUniqueId());
         getActivity().startActivity(intent);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(adapter!=null){
+            adapter.notifyDataSetChanged();
+        }
+    }
 }

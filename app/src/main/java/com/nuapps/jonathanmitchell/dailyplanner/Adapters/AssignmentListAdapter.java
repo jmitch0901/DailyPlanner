@@ -11,12 +11,14 @@ import android.widget.TextView;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
 import com.nuapps.jonathanmitchell.dailyplanner.R;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
  * Created by jonathanmitchell on 10/7/15.
  */
 public class AssignmentListAdapter extends ArrayAdapter<SchoolClass.Assignment> {
+
 
     public AssignmentListAdapter(Context context, int resource, List<SchoolClass.Assignment> assignments) {
         super(context, resource,assignments);
@@ -49,8 +51,8 @@ public class AssignmentListAdapter extends ArrayAdapter<SchoolClass.Assignment> 
         }
 
         assignmentName.setText(assignment.getAssignmentName());
-        dateAdded.setText(assignment.getDateAddedForView());
-        dateDue.setText(assignment.getDueDateForView());
+        dateDue.setText("Due: "+assignment.getDueDateForView());
+        dateAdded.setText("(added: "+assignment.getDateAddedForView()+")");
 
         return v;
     }
