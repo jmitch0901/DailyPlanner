@@ -3,6 +3,8 @@ package com.nuapps.jonathanmitchell.dailyplanner.Dialogs;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,10 @@ import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClassFactory;
 import com.nuapps.jonathanmitchell.dailyplanner.R;
 
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -30,7 +36,7 @@ import java.util.UUID;
 public class AddAssignmentDialogFragment extends DialogFragment
         implements View.OnClickListener,
         DatePicker.OnDateChangedListener,
-        TimePicker.OnTimeChangedListener
+        TextWatcher
 {
 
     private static final String TAG = "ADD_ASSGN_D_FRAG";
@@ -42,18 +48,14 @@ public class AddAssignmentDialogFragment extends DialogFragment
 
     private EditText assignmentEditText;
     private DatePicker datePicker;
-    private TimePicker timePicker;
     private TextView confirmTextView;
-    private Button setTime;
-    private Button setDate;
     private Button confirm;
     private Button cancel;
 
-    private LinearLayout setTimeLayout;
-    private LinearLayout setDateLayout;
-
-
     private Calendar cal;
+    private Date selectedDate;
+
+    private String assignmentName;
 
     public static AddAssignmentDialogFragment newInstance(UUID uuid){
         AddAssignmentDialogFragment dFrag = new AddAssignmentDialogFragment();
@@ -79,50 +81,59 @@ public class AddAssignmentDialogFragment extends DialogFragment
 
         assignmentEditText=(EditText)v.findViewById(R.id.edit_text_assignment_name);
         datePicker=(DatePicker)v.findViewById(R.id.date_picker_add_assignment);
-        timePicker=(TimePicker)v.findViewById(R.id.time_picker_add_assignment);
-        //confirmTextView=(TextView)v.findViewById(R.id.text_view_confirm_assignment);
-        setTime=(Button)v.findViewById(R.id.button_set_time);
-        setDate=(Button)v.findViewById(R.id.button_set_date);
+        confirmTextView=(TextView)v.findViewById(R.id.text_view_confirm_assignment);
         confirm=(Button)v.findViewById(R.id.button_confirm_new_assignment);
         cancel=(Button)v.findViewById(R.id.button_cancel_new_assignment);
-
-        setTimeLayout=(LinearLayout)v.findViewById(R.id.linear_layout_time_picker);
-        setDateLayout=(LinearLayout)v.findViewById(R.id.linear_layout_date_picker);
 
         if(savedInstanceState!=null){
             assignmentEditText.setText(savedInstanceState.getString(SIS_ASSIGNMENT_NAME));
         }
 
-        setTime.setOnClickListener(this);
-        setDate.setOnClickListener(this);
+        assignmentEditText.addTextChangedListener(this);
+
         confirm.setOnClickListener(this);
         cancel.setOnClickListener(this);
 
         datePicker.init(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), this);
         datePicker.setMinDate(cal.getTimeInMillis());
-        timePicker.setOnTimeChangedListener(this);
+
+        initializeConfirmTextView();
 
         return v;
+    }
+
+    private void initializeConfirmTextView(){
+        selectedDate=new Date();
+        assignmentName="";
+        updateTextView();
+    }
+
+    private String getFormattedDate(){
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        return format.format(selectedDate);
+    }
+
+    private String getWeekDay(){
+        SimpleDateFormat format = new SimpleDateFormat("EEEE");
+        return format.format(selectedDate);
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
         switch (id){
-            case R.id.button_set_time:
-                setTimeLayout.setVisibility(View.VISIBLE);
-                setDateLayout.setVisibility(View.GONE);
-                break;
-            case R.id.button_set_date:
-                setTimeLayout.setVisibility(View.GONE);
-                setDateLayout.setVisibility(View.VISIBLE);
-                break;
             case R.id.button_confirm_new_assignment:
+                dismiss();
                 break;
             case R.id.button_cancel_new_assignment:
                 dismiss();
                 break;
         }
+    }
+
+    private void updateTextView(){
+        assignmentName=assignmentName==null||assignmentName.isEmpty() ? "?" : assignmentName;
+        confirmTextView.setText("Assignment "+assignmentName+" will be due "+getWeekDay()+", "+getFormattedDate()+" for class "+schoolClass.getClassName()+".");
     }
 
     @Override
@@ -132,15 +143,21 @@ public class AddAssignmentDialogFragment extends DialogFragment
     }
 
 
-
     @Override
     public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-
+        selectedDate = new Date(datePicker.getCalendarView().getDate());
+        updateTextView();
     }
 
     @Override
-    public void onTimeChanged(TimePicker timePicker, int i, int i1) {
-
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        assignmentName=charSequence.toString();
+        updateTextView();
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+    @Override
+    public void afterTextChanged(Editable editable) {}
 }

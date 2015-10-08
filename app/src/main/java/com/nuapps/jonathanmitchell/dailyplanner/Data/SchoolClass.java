@@ -89,6 +89,7 @@ public class SchoolClass implements Comparable<SchoolClass>{
         assignments.add(new Assignment(assignmentName, dueDate));
     }
 
+
     public String getTeacherName() {
         return teacherName;
     }
