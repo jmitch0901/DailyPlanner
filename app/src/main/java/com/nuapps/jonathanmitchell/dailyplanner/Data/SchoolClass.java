@@ -76,6 +76,16 @@ public class SchoolClass implements Comparable<SchoolClass>{
         }
     }
 
+    public boolean assignmentExists(String assignmentName){
+        for(Assignment a : assignments){
+            if(a.getAssignmentName().equalsIgnoreCase(assignmentName)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public String getAssignmentNotice(){
         return assignments.size()==1 ? "You have "+assignments.size()+" assignment coming up" : "You have "+assignments.size()+" assignments coming up";
     }
@@ -204,6 +214,10 @@ public class SchoolClass implements Comparable<SchoolClass>{
             this.reminderDate=reminder;
         }
 
+        public Date getReminderDate() {
+            return reminderDate;
+        }
+
         public String getDateAddedForView() {
             return DFORMAT.format(dateAdded);
         }
@@ -216,9 +230,6 @@ public class SchoolClass implements Comparable<SchoolClass>{
             return hasReminder;
         }
 
-        public Date getReminderDate() {
-            return reminderDate;
-        }
 
         public JSONObject toJSON() throws JSONException{
             JSONObject jo = new JSONObject();

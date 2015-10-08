@@ -1,5 +1,7 @@
 package com.nuapps.jonathanmitchell.dailyplanner.Fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -73,6 +75,11 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
         addAssignmentButton=(FloatingActionButton)v.findViewById(R.id.button_add_new_assignment);
         addDataToViews();
 
+        if(adapter==null){
+            adapter = new AssignmentListAdapter(getContext(),android.R.layout.simple_list_item_1,schoolClass.getAssignments());
+        }
+        assignmentListView.setAdapter(adapter);
+
         addAssignmentButton.setOnClickListener(this);
 
         return v;
@@ -83,7 +90,6 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
         teacherName.setText(schoolClass.getTeacherName());
         assignmentNotice.setText(schoolClass.getAssignmentNotice());
 
-        adapter = new AssignmentListAdapter(getContext(),android.R.layout.simple_list_item_1,schoolClass.getAssignments());
     }
 
     @Override
@@ -91,10 +97,24 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
         int id = view.getId();
         switch (id){
             case R.id.button_add_new_assignment:
-                AddAssignmentDialogFragment
-                        .newInstance(schoolClass.getUniqueId())
-                        .show(getActivity().getSupportFragmentManager(),TAG);
+                AddAssignmentDialogFragment dFrag = AddAssignmentDialogFragment.newInstance(schoolClass.getUniqueId());
+                dFrag.setTargetFragment(ClassShownFragment.this,AddAssignmentDialogFragment.REQUEST_DUE_DATE);
+                dFrag.show(getActivity().getSupportFragmentManager(), TAG);
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode== Activity.RESULT_OK){
+            if(requestCode==AddAssignmentDialogFragment.REQUEST_DUE_DATE){
+                adapter.notifyDataSetChanged();
+            } else {
+                Log.e(TAG,"Bad REQUEST code for ADD ASSIGNMENT D FRAG");
+            }
+        } else {
+            Log.e(TAG,"Bad RESULT code for ADD ASSIGNMENT D FRAG");
         }
     }
 }

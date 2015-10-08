@@ -1,5 +1,7 @@
 package com.nuapps.jonathanmitchell.dailyplanner.Dialogs;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClassFactory;
@@ -39,6 +42,8 @@ public class AddAssignmentDialogFragment extends DialogFragment
         TextWatcher
 {
 
+    public static final int REQUEST_DUE_DATE = 2;
+
     private static final String TAG = "ADD_ASSGN_D_FRAG";
     private static final String XTRA_UUID="XTRA_UUID";
 
@@ -47,11 +52,7 @@ public class AddAssignmentDialogFragment extends DialogFragment
     private SchoolClass schoolClass;
 
     private EditText assignmentEditText;
-    private DatePicker datePicker;
     private TextView confirmTextView;
-    private Button confirm;
-    private Button cancel;
-
     private Calendar cal;
     private Date selectedDate;
 
@@ -80,10 +81,10 @@ public class AddAssignmentDialogFragment extends DialogFragment
         schoolClass=SchoolClassFactory.getFactory(getActivity()).getSchoolClassByUUID(uuid);
 
         assignmentEditText=(EditText)v.findViewById(R.id.edit_text_assignment_name);
-        datePicker=(DatePicker)v.findViewById(R.id.date_picker_add_assignment);
+        DatePicker datePicker=(DatePicker)v.findViewById(R.id.date_picker_add_assignment);
         confirmTextView=(TextView)v.findViewById(R.id.text_view_confirm_assignment);
-        confirm=(Button)v.findViewById(R.id.button_confirm_new_assignment);
-        cancel=(Button)v.findViewById(R.id.button_cancel_new_assignment);
+        Button confirm=(Button)v.findViewById(R.id.button_confirm_new_assignment);
+        Button cancel=(Button)v.findViewById(R.id.button_cancel_new_assignment);
 
         if(savedInstanceState!=null){
             assignmentEditText.setText(savedInstanceState.getString(SIS_ASSIGNMENT_NAME));
@@ -123,7 +124,17 @@ public class AddAssignmentDialogFragment extends DialogFragment
         int id = view.getId();
         switch (id){
             case R.id.button_confirm_new_assignment:
-                dismiss();
+                if(inputIsValid()) {
+                    if(!schoolClass.assignmentExists(assignmentName)) {
+                        sendResult(REQUEST_DUE_DATE);
+                        dismiss();
+                    } else {
+                        Toast.makeText(getActivity(),"Assignment \'"+assignmentName+"\' already exists. Please remove old assignment, " +
+                                "or rename current.",Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                    Toast.makeText(getActivity(),"Please input an Assignment Name",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.button_cancel_new_assignment:
                 dismiss();
@@ -131,9 +142,19 @@ public class AddAssignmentDialogFragment extends DialogFragment
         }
     }
 
+    private boolean inputIsValid(){
+        return assignmentEditText.getText().toString()!=null && !assignmentEditText.getText().toString().isEmpty();
+    }
+
+    private void sendResult(final int REQUEST_CODE){
+        getTargetFragment().onActivityResult(REQUEST_CODE, Activity.RESULT_OK,null);
+    }
+
     private void updateTextView(){
         assignmentName=assignmentName==null||assignmentName.isEmpty() ? "?" : assignmentName;
-        confirmTextView.setText("Assignment "+assignmentName+" will be due "+getWeekDay()+", "+getFormattedDate()+" for class "+schoolClass.getClassName()+".");
+        String text = "Assignment "+assignmentName+" will be due "+getWeekDay()+", "
+                +getFormattedDate()+" for class "+schoolClass.getClassName()+".";
+        confirmTextView.setText(text);
     }
 
     @Override
