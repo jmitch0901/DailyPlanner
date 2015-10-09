@@ -152,8 +152,8 @@ public class AddAssignmentDialogFragment extends DialogFragment
 
     private void updateTextView(){
         assignmentName=assignmentName==null||assignmentName.isEmpty() ? "?" : assignmentName;
-        String text = "Assignment "+assignmentName+" will be due "+getWeekDay()+", "
-                +getFormattedDate()+" for class "+schoolClass.getClassName()+".";
+        String text = "Assignment \'"+assignmentName+"\' will be due "+getWeekDay()+", "
+                +getFormattedDate()+" for class \'"+schoolClass.getClassName()+"\'.";
         confirmTextView.setText(text);
     }
 

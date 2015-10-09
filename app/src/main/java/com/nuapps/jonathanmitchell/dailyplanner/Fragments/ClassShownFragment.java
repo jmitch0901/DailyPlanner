@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,11 +113,20 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
                 SchoolClassFactory.getFactory(getActivity()).saveClasses();
                 assignmentNotice.setText(schoolClass.getAssignmentNotice());
                 adapter.notifyDataSetChanged();
+                showAlertToAddReminder();
+
             } else {
                 Log.e(TAG,"Bad REQUEST code for ADD ASSIGNMENT D FRAG");
             }
         } else {
             Log.e(TAG,"Bad RESULT code for ADD ASSIGNMENT D FRAG");
         }
+    }
+
+    private void showAlertToAddReminder(){
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Set a reminder?")
+                .create()
+                .show();
     }
 }

@@ -59,13 +59,12 @@
             <TextView
                 android:padding="3dp"
                 android:layout_gravity="center"
-                android:text="Reminder Set"
+                android:text="Reminder Set!"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView
                 android:padding="2dp"
-                android:background="#000000"
-                android:src="@android:drawable/ic_popup_reminder"
+                android:src="@android:drawable/checkbox_on_background"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

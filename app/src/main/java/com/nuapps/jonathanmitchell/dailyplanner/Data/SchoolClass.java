@@ -220,7 +220,16 @@ public class SchoolClass implements Comparable<SchoolClass>{
         }
 
         public String getDateAddedForView() {
-            return DFORMAT.format(dateAdded);
+            String s =  DFORMAT.format(dateAdded);
+
+            if(s.charAt(11) == '0'){
+                char[] chars = s.toCharArray();
+                chars[11] = ' ';
+                s = new String(chars);
+            }
+
+
+            return s;
         }
 
         public String getDueDateForView() {
