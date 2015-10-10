@@ -28,15 +28,15 @@ public class DeleteOrRenameDialogFragment extends DialogFragment implements View
 
     public static final int REQUEST_DELETE_OR_RENAME = 3;
 
-    private static final String INT_CODE_KEY = "INT_CODE";
+    protected static final String INT_CODE_KEY = "INT_CODE";
     private static final String UUID_KEY = "UUID_KEY";
     private static final String ASSIGNMENT_NAME_KEY = "ASSIGNMENT_NAME_KEY";
 
-    private static final int SCHOOL_CLASS = 3;
-    private static final int ASSIGNMENT = 4;
+    protected static final int SCHOOL_CLASS = 3;
+    protected static final int ASSIGNMENT = 4;
 
-    private SchoolClass schoolClass;
-    private SchoolClass.Assignment assignment;
+    protected SchoolClass schoolClass;
+    protected SchoolClass.Assignment assignment;
 
     public static DeleteOrRenameDialogFragment newInstance(SchoolClass schoolClass){
         DeleteOrRenameDialogFragment dFrag = new DeleteOrRenameDialogFragment();
@@ -130,6 +130,7 @@ public class DeleteOrRenameDialogFragment extends DialogFragment implements View
                         .show();
                 break;
             case R.id.button_rename_class_edit:
+                rename();
                 break;
         }
     }
@@ -152,7 +153,6 @@ public class DeleteOrRenameDialogFragment extends DialogFragment implements View
         switch (getArguments().getInt(INT_CODE_KEY)){
             case SCHOOL_CLASS:
                 SchoolClassFactory.getFactory(getActivity()).removeSchoolClass(schoolClass);
-                SchoolClassFactory.getFactory(getActivity()).saveClasses();
                 sendResult(REQUEST_DELETE_OR_RENAME);
                 break;
             case ASSIGNMENT:
@@ -165,15 +165,21 @@ public class DeleteOrRenameDialogFragment extends DialogFragment implements View
     private void rename(){
         switch (getArguments().getInt(INT_CODE_KEY)){
             case SCHOOL_CLASS:
-
+                dismiss();
+                RenameDialogFragment dFrag = RenameDialogFragment.newInstance(this);
+                dFrag.setTargetFragment(getTargetFragment(),REQUEST_DELETE_OR_RENAME);
+                dFrag.show(getActivity().getSupportFragmentManager(),TAG);
                 break;
             case ASSIGNMENT:
-
+                dismiss();
+                RenameDialogFragment dFrag2 = RenameDialogFragment.newInstance(this);
+                dFrag2.setTargetFragment(getTargetFragment(),REQUEST_DELETE_OR_RENAME);
+                dFrag2.show(getActivity().getSupportFragmentManager(),TAG);
                 break;
         }
     }
 
-    private void sendResult(final int REQUEST_CODE){
+    protected void sendResult(final int REQUEST_CODE){
         getTargetFragment().onActivityResult(REQUEST_CODE,Activity.RESULT_OK,null);
     }
 }

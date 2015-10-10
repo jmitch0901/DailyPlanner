@@ -70,6 +70,16 @@ public class SchoolClassFactory {
         schoolClasses.remove(schoolClass);
     }
 
+    public boolean hasClassName(String className){
+        for(SchoolClass s : schoolClasses){
+            if(s.getClassName().equalsIgnoreCase(className)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     private void loadClasses(){
         JSONSerializer serializer = new JSONSerializer(context);

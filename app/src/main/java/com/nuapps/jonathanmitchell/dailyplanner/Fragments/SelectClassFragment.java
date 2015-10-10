@@ -79,6 +79,7 @@ public class SelectClassFragment extends Fragment
                 SchoolClassFactory.getFactory(getActivity()).addClass(new SchoolClass(className,teachName));
                 adapter.notifyDataSetChanged();
             } else if (requestCode == DeleteOrRenameDialogFragment.REQUEST_DELETE_OR_RENAME){
+                SchoolClassFactory.getFactory(getActivity()).saveClasses();
                 adapter.notifyDataSetChanged();
             } else {
                 Log.e(TAG,"Didn't get dialog data; bad REQUEST code.");

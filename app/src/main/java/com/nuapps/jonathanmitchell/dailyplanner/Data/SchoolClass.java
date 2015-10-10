@@ -171,6 +171,10 @@ public class SchoolClass implements Comparable<SchoolClass>{
 
     }
 
+    public void setNewName(String newName){
+        this.className = newName;
+    }
+
     public int getAssignmentCount(){
         return assignments.size();
     }
@@ -247,6 +251,10 @@ public class SchoolClass implements Comparable<SchoolClass>{
             String returnMe = weekDay.format(dateAdded);
             returnMe += ", "+DFORMAT.format(dueDate).substring(0,10);
             return returnMe;
+        }
+
+        public void setNewName(String newName){
+            this.assignmentName=newName;
         }
 
         public boolean hasReminder() {
