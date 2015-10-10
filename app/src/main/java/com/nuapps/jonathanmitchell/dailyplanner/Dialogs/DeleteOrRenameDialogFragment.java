@@ -110,9 +110,9 @@ public class DeleteOrRenameDialogFragment extends DialogFragment implements View
                 break;
             case R.id.button_delete_class_edit:
                 dismiss();
-                String classOrAssignment = getArguments().getInt(INT_CODE_KEY) == SCHOOL_CLASS ? "class "+schoolClass.getClassName()+" and ALL of it's assignments?" : "assignment "+assignment.getAssignmentName()+"?";
+                String classOrAssignment = getArguments().getInt(INT_CODE_KEY) == SCHOOL_CLASS ? "class \'"+schoolClass.getClassName()+"\' and ALL of it's assignments?" : "assignment \'"+assignment.getAssignmentName()+"\'?";
                 new AlertDialog.Builder(getActivity())
-                        .setTitle("Are you sure you want to delete this class?")
+                        .setTitle("Are you sure you want to delete this?")
                         .setMessage("Are you sure you want to permanently remove "+classOrAssignment)
                         .setNegativeButton("No!", new DialogInterface.OnClickListener() {
                             @Override
