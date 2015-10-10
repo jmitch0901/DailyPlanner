@@ -12,16 +12,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nuapps.jonathanmitchell.dailyplanner.Activities.SchoolClassActivity;
 import com.nuapps.jonathanmitchell.dailyplanner.Adapters.AssignmentListAdapter;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClassFactory;
 import com.nuapps.jonathanmitchell.dailyplanner.Dialogs.AddAssignmentDialogFragment;
+import com.nuapps.jonathanmitchell.dailyplanner.Dialogs.DeleteOrRenameDialogFragment;
 import com.nuapps.jonathanmitchell.dailyplanner.R;
 
 import java.util.Calendar;
@@ -31,7 +34,11 @@ import java.util.UUID;
 /**
  * Created by jmitch on 10/7/2015.
  */
-public class ClassShownFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener{
+public class ClassShownFragment extends Fragment
+        implements View.OnClickListener,
+        AdapterView.OnItemClickListener,
+        AdapterView.OnItemLongClickListener,
+        DialogInterface.OnClickListener{
 
     private static final String TAG = "CLASS_SWN_FRAG";
     public static final String UUID_KEY = "XTRA_UUID";
@@ -82,6 +89,8 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
             adapter = new AssignmentListAdapter(getContext(),android.R.layout.simple_list_item_1,schoolClass.getAssignments());
         }
         assignmentListView.setAdapter(adapter);
+        assignmentListView.setOnItemClickListener(this);
+        assignmentListView.setOnItemLongClickListener(this);
 
         addAssignmentButton.setOnClickListener(this);
 
@@ -117,6 +126,9 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
                 adapter.notifyDataSetChanged();
                 showAlertToAddReminder();
 
+            } else if (requestCode==DeleteOrRenameDialogFragment.REQUEST_DELETE_OR_RENAME){
+                SchoolClassFactory.getFactory(getActivity()).saveClasses();
+                adapter.notifyDataSetChanged();
             } else {
                 Log.e(TAG,"Bad REQUEST code for ADD ASSIGNMENT D FRAG");
             }
@@ -147,5 +159,23 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
                 break;
         }
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        SchoolClass.Assignment assignment = (SchoolClass.Assignment)adapterView.getItemAtPosition(i);
+        if(assignment==null){
+            Log.e(TAG,"For some reason, the item you clicked on is NULL!");
+            return;
+        }
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        SchoolClass.Assignment assignment = (SchoolClass.Assignment)adapterView.getItemAtPosition(i);
+        DeleteOrRenameDialogFragment dFrag = DeleteOrRenameDialogFragment.newInstance(assignment);
+        dFrag.setTargetFragment(ClassShownFragment.this,DeleteOrRenameDialogFragment.REQUEST_DELETE_OR_RENAME);
+        dFrag.show(getActivity().getSupportFragmentManager(),TAG);
+        return true;
     }
 }

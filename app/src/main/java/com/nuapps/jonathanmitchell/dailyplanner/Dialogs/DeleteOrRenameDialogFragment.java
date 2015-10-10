@@ -142,7 +142,7 @@ public class DeleteOrRenameDialogFragment extends DialogFragment implements View
                 basicText+=" class \'"+schoolClass.getClassName()+"\' ?";
                 return basicText;
             case ASSIGNMENT:
-                basicText+=" assignment \'"+"ASSIGNMENT NAME"+"\' ?";
+                basicText+=" assignment \'"+assignment.getAssignmentName()+"\' ?";
                 return basicText;
             default:
                 return "";

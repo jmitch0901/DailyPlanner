@@ -82,7 +82,7 @@ public class RenameDialogFragment extends DeleteOrRenameDialogFragment implement
             case SCHOOL_CLASS:
                 return "Class \'"+schoolClass.getClassName()+"\' will be renamed to: \'"+newName+"\'.";
             case ASSIGNMENT:
-                return "Assignment \'"+schoolClass.getClassName()+"\' will be renamed to: \'"+newName+"\'.";
+                return "Assignment \'"+assignment.getAssignmentName()+"\' will be renamed to: \'"+newName+"\'.";
             default:
                 return "";
         }
@@ -114,7 +114,7 @@ public class RenameDialogFragment extends DeleteOrRenameDialogFragment implement
                         sendResult(REQUEST_DELETE_OR_RENAME);
                         break;
                     case ASSIGNMENT:
-                        if(SchoolClassFactory.getFactory(getActivity()).hasClassName(renameEditText.getText().toString())
+                        if(schoolClass.assignmentExists(renameEditText.getText().toString())
                                 && !renameEditText.getText().toString().equalsIgnoreCase(assignment.getAssignmentName())
                                 ){
                             Toast.makeText(getActivity(),"Assignment name \'"+renameEditText.getText().toString()
