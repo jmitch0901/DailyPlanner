@@ -17,6 +17,10 @@ public class MainActivity extends SingleFragmentActivity {
         return new SelectClassFragment();
     }
 
+    @Override
+    public boolean isHomeAsUpEnabled() {
+        return false;
+    }
 
     @Override
     protected void onStop() {

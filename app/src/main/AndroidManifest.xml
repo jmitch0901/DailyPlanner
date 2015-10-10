@@ -11,7 +11,7 @@
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,7 +19,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activities.SchoolClassActivity" />
+        <activity
+            android:name=".Activities.SchoolClassActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            />
     </application>
 
 </manifest>

@@ -146,7 +146,7 @@ public class AddAssignmentDialogFragment extends DialogFragment
     }
 
     private void sendResult(final int REQUEST_CODE){
-        schoolClass.addAssignmentAndSort(assignmentName,selectedDate); //POINTING to the place in factory, ADD that assignment.
+        schoolClass.addAssignment(assignmentName,selectedDate); //POINTING to the place in factory, ADD that assignment.
         getTargetFragment().onActivityResult(REQUEST_CODE, Activity.RESULT_OK,null);
     }
 

@@ -1,6 +1,7 @@
 package com.nuapps.jonathanmitchell.dailyplanner.Fragments;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nuapps.jonathanmitchell.dailyplanner.Adapters.AssignmentListAdapter;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
@@ -29,7 +31,7 @@ import java.util.UUID;
 /**
  * Created by jmitch on 10/7/2015.
  */
-public class ClassShownFragment extends Fragment implements View.OnClickListener{
+public class ClassShownFragment extends Fragment implements View.OnClickListener, DialogInterface.OnClickListener{
 
     private static final String TAG = "CLASS_SWN_FRAG";
     public static final String UUID_KEY = "XTRA_UUID";
@@ -126,7 +128,24 @@ public class ClassShownFragment extends Fragment implements View.OnClickListener
     private void showAlertToAddReminder(){
         new AlertDialog.Builder(getActivity())
                 .setTitle("Set a reminder?")
+                .setMessage("Would you like to set a reminder?")
+                .setNegativeButton("Not Now",this)
+                .setPositiveButton("YES!",this)
                 .create()
                 .show();
+    }
+
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
+
+        switch (i){
+            case DialogInterface.BUTTON_POSITIVE:
+
+                break;
+            case DialogInterface.BUTTON_NEGATIVE:
+
+                break;
+        }
+
     }
 }

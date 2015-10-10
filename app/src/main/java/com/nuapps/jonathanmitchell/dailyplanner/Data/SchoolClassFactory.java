@@ -46,13 +46,10 @@ public class SchoolClassFactory {
         return myFactory;
     }
 
-    public void addClassAndSort(SchoolClass schoolClass){
-        schoolClasses.add(schoolClass);
-        Collections.sort(schoolClasses);
-    }
 
     public void addClass(SchoolClass schoolClass){
         schoolClasses.add(schoolClass);
+        Collections.sort(schoolClasses);
     }
 
     public List<SchoolClass> getSchoolClasses() {

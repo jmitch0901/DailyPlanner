@@ -91,14 +91,11 @@ public class SchoolClass implements Comparable<SchoolClass>{
         return assignments.size()==1 ? "You have "+assignments.size()+" assignment coming up" : "You have "+assignments.size()+" assignments coming up";
     }
 
-    public void addAssignmentAndSort(String assignmentDescription, Date dueDate){
+    public void addAssignment(String assignmentDescription, Date dueDate){
         assignments.add(new Assignment(assignmentDescription,dueDate));
         Collections.sort(assignments);
     }
 
-    public void addAssignment(String assignmentName, Date dueDate){
-        assignments.add(new Assignment(assignmentName, dueDate));
-    }
 
 
     public String getTeacherName() {
@@ -136,7 +133,7 @@ public class SchoolClass implements Comparable<SchoolClass>{
 
     @Override
     public int compareTo(SchoolClass schoolClass) {
-        return schoolClass.dateAdded.compareTo(dateAdded);
+        return this.className.toUpperCase().compareTo(schoolClass.className.toUpperCase());
     }
 
     public JSONObject toJSON() throws JSONException{
@@ -233,7 +230,11 @@ public class SchoolClass implements Comparable<SchoolClass>{
         }
 
         public String getDueDateForView() {
-            return DFORMAT.format(dueDate).substring(0,10);
+            SimpleDateFormat weekDay = new SimpleDateFormat("EEEE");
+
+            String returnMe = weekDay.format(dateAdded);
+            returnMe += ", "+DFORMAT.format(dueDate).substring(0,10);
+            return returnMe;
         }
 
         public boolean hasReminder() {
