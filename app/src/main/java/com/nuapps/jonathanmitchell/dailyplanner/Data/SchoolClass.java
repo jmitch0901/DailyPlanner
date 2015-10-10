@@ -96,7 +96,9 @@ public class SchoolClass implements Comparable<SchoolClass>{
         Collections.sort(assignments);
     }
 
-
+    public void removeAssignment(Assignment assignmentToRemove){
+        assignments.remove(assignmentToRemove);
+    }
 
     public String getTeacherName() {
         return teacherName;
@@ -125,6 +127,16 @@ public class SchoolClass implements Comparable<SchoolClass>{
 
     public List<Assignment> getAssignments() {
         return assignments;
+    }
+
+    public Assignment getAssignmentFromName(String assignmentName){
+        for(Assignment a : assignments){
+            if(a.getAssignmentName().equalsIgnoreCase(assignmentName)){
+                return a;
+            }
+        }
+
+        return null;
     }
 
     public UUID getUniqueId() {
@@ -252,6 +264,11 @@ public class SchoolClass implements Comparable<SchoolClass>{
                 jo.put(REMINDER_DATE, DFORMAT.format(reminderDate));
             }
             return jo;
+        }
+
+        public UUID getParentUUID() {
+            return uniqueId;
+
         }
 
         @Override

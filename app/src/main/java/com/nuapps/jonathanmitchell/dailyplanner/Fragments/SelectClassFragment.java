@@ -18,12 +18,17 @@ import com.nuapps.jonathanmitchell.dailyplanner.Adapters.ClassListAdapter;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClass;
 import com.nuapps.jonathanmitchell.dailyplanner.Data.SchoolClassFactory;
 import com.nuapps.jonathanmitchell.dailyplanner.Dialogs.AddClassDialogFragment;
+import com.nuapps.jonathanmitchell.dailyplanner.Dialogs.DeleteOrRenameDialogFragment;
 import com.nuapps.jonathanmitchell.dailyplanner.R;
 
 /**
  * Created by jmitch on 10/5/2015.
  */
-public class SelectClassFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener{
+public class SelectClassFragment extends Fragment
+        implements View.OnClickListener,
+        AdapterView.OnItemClickListener,
+        AdapterView.OnItemLongClickListener
+{
 
     private static final String TAG = "SLCT_CLASS_FRAG";
 
@@ -47,6 +52,7 @@ public class SelectClassFragment extends Fragment implements View.OnClickListene
 
         ListView classesView = (ListView)v.findViewById(R.id.list_view_school_classes);
         classesView.setOnItemClickListener(this);
+        classesView.setOnItemLongClickListener(this);
         classesView.setAdapter(adapter);
 
         return v;
@@ -72,6 +78,8 @@ public class SelectClassFragment extends Fragment implements View.OnClickListene
                 String teachName = data.getStringExtra(AddClassDialogFragment.TEACHER_KEY);
                 SchoolClassFactory.getFactory(getActivity()).addClass(new SchoolClass(className,teachName));
                 adapter.notifyDataSetChanged();
+            } else if (requestCode == DeleteOrRenameDialogFragment.REQUEST_DELETE_OR_RENAME){
+                adapter.notifyDataSetChanged();
             } else {
                 Log.e(TAG,"Didn't get dialog data; bad REQUEST code.");
             }
@@ -80,6 +88,16 @@ public class SelectClassFragment extends Fragment implements View.OnClickListene
         }
     }
 
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(adapter!=null){
+            adapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -95,10 +113,13 @@ public class SelectClassFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if(adapter!=null){
-            adapter.notifyDataSetChanged();
-        }
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        SchoolClass schoolClass = (SchoolClass)adapterView.getItemAtPosition(i);
+        DeleteOrRenameDialogFragment dFrag = DeleteOrRenameDialogFragment.newInstance(schoolClass);
+        dFrag.setTargetFragment(SelectClassFragment.this,DeleteOrRenameDialogFragment.REQUEST_DELETE_OR_RENAME);
+        dFrag.show(getActivity().getSupportFragmentManager(),TAG);
+        return true;
     }
+
+
 }

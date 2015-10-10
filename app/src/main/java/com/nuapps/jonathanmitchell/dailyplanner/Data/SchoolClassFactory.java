@@ -20,12 +20,8 @@ import java.util.UUID;
  */
 public class SchoolClassFactory {
 
-
-
     private static final String TAG = "SCHOOL_CLASS_FACT";
-
     private static final String CLASSES = "classes";
-
 
     private static SchoolClassFactory myFactory;
 
@@ -69,6 +65,11 @@ public class SchoolClassFactory {
         }
         return null;
     }
+
+    public void removeSchoolClass(SchoolClass schoolClass){
+        schoolClasses.remove(schoolClass);
+    }
+
 
     private void loadClasses(){
         JSONSerializer serializer = new JSONSerializer(context);
